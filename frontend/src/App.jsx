@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import WelcomeScreen from './components/WelcomeScreen';
 import RoleSelector from './components/RoleSelector';
 import HeroSelector from './components/HeroSelector';
 import Randomizer from './components/Randomizer';
 
 function App() {
+  const [started, setStarted] = useState(false);
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedHero, setSelectedHero] = useState(null);
 
@@ -22,6 +24,12 @@ function App() {
       console.error('Failed to fetch heroes for Surprise Me:', error);
     }
   };
+
+   if (!started) {
+    return (
+      <WelcomeScreen onStart={() => setStarted(true)} />
+    );
+  }
 
   if (!selectedRole && !selectedHero) {
     return (

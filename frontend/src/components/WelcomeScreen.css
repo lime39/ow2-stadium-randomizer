@@ -1,0 +1,92 @@
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  padding: 3rem 2rem;
+  background-color: #0b0c10;
+  color: #f0f0f0;
+  text-align: center;
+  /* Remove justify-content: space-between to avoid pushing footer down too far */
+  position: relative;
+}
+
+.content-wrapper {
+  max-width: 700px;
+  width: 100%;
+  /* Add margin-top to push content slightly down */
+  margin-top: 4rem;
+}
+
+.welcome-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #ff7f50;
+}
+
+.welcome-description {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #dcdcdc;
+  margin-bottom: 3rem; /* add a bit more space below description */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* Remove vertical centering, it will naturally flow below title */
+}
+
+.how-to-use {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 3rem;
+}
+
+.how-to-use h2 {
+  margin-bottom: 0.8rem;
+  color: #ffb74d; /* lighter orange */
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.how-to-use ol {
+  padding-left: 1.2rem;
+  color: #eee;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.get-started-btn {
+  background-color: #ff9800;
+  color: #222;
+  padding: 0.9rem 3rem;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+
+
+.get-started-btn:hover {
+  background-color: #e08800;
+}
+
+.footer-text {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: auto; /* Push to bottom */
+  margin-bottom: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}

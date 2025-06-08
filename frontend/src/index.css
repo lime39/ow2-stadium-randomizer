@@ -1,4 +1,10 @@
 /* index.css */
+button,
+img[onClick],
+a {
+  cursor: pointer;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
