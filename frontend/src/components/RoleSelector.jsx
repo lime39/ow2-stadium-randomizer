@@ -1,26 +1,18 @@
 import React from 'react';
 import './RoleSelector.css';
 
-function RoleSelector({ onSelect }) {
+const RoleSelector = ({ onRoleSelect, onSurpriseHero }) => {
   return (
-    <div className="role-selector">
-      <h2>Select Your Role</h2>
-      <div className="roles">
-        <div onClick={() => onSelect('Tank')}>
-          <img src="/images/tank.webp" alt="Tank" />
-          <p>Tank</p>
-        </div>
-        <div onClick={() => onSelect('DPS')}>
-          <img src="/images/dps.webp" alt="DPS" />
-          <p>DPS</p>
-        </div>
-        <div onClick={() => onSelect('Support')}>
-          <img src="/images/support.webp" alt="Support" />
-          <p>Support</p>
-        </div>
+    <div className="role-select-container">
+      <h1 className="role-title">Select a Role</h1>
+      <div className="role-icons">
+        <img src="/images/tank.webp" alt="Tank" onClick={() => onRoleSelect('Tank')} />
+        <img src="/images/dps.webp" alt="DPS" onClick={() => onRoleSelect('DPS')} />
+        <img src="/images/support.webp" alt="Support" onClick={() => onRoleSelect('Support')} />
       </div>
+      <button className="surprise-btn" onClick={onSurpriseHero}>Surprise Me</button>
     </div>
   );
-}
+};
 
 export default RoleSelector;

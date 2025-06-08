@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import RoleSelector from './components/RoleSelector';
 import HeroSelector from './components/HeroSelector';
 import Randomizer from './components/Randomizer';
@@ -8,15 +7,47 @@ function App() {
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedHero, setSelectedHero] = useState(null);
 
-  if (!selectedRole) {
-    return <RoleSelector onSelect={setSelectedRole} />;
+  const handleBackToRoles = () => {
+    setSelectedRole(null);
+    setSelectedHero(null);
+  };
+
+  const handleSurpriseMe = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/heroes');
+      const heroes = await response.json();
+      const randomHero = heroes[Math.floor(Math.random() * heroes.length)];
+      setSelectedHero(randomHero);
+    } catch (error) {
+      console.error('Failed to fetch heroes for Surprise Me:', error);
+    }
+  };
+
+  if (!selectedRole && !selectedHero) {
+    return (
+      <RoleSelector
+        onRoleSelect={setSelectedRole}
+        onSurpriseHero={handleSurpriseMe}
+      />
+    );
   }
 
-  if (!selectedHero) {
-    return <HeroSelector role={selectedRole} onSelect={setSelectedHero} />;
+  if (selectedRole && !selectedHero) {
+    return (
+      <HeroSelector
+        role={selectedRole}
+        onSelect={setSelectedHero}
+        onBack={handleBackToRoles}
+      />
+    );
   }
 
-  return <Randomizer hero={selectedHero} />;
+  if (selectedHero) {
+    return <Randomizer hero={selectedHero} onBack={handleBackToRoles} />;
+  }
+
+  // fallback render (optional)
+  return null;
 }
 
 export default App;

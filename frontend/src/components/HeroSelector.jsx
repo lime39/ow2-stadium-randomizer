@@ -1,24 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import './HeroSelector.css';
 
-function HeroSelector({ role, onSelect }) {
+const HeroSelector = ({ role, onSelect, onBack }) => {
+  console.log('Selected role:', role);
   const [heroes, setHeroes] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/heroes')
-      .then(res => res.json())
-      .then(data => {
-        const filtered = data.filter(hero => hero.role.toLowerCase() === role.toLowerCase());
-        setHeroes(filtered);
-      });
+    const fetchHeroes = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/heroes?role=${role}`);
+        const data = await response.json();
+        setHeroes(data);
+      } catch (error) {
+        console.error('Failed to fetch heroes:', error);
+      }
+    };
+
+    fetchHeroes();
   }, [role]);
 
   return (
-    <div className="hero-selector">
-      <h2>Select a {role}</h2>
-      <div className="heroes">
-        {heroes.map(hero => (
-          <div key={hero.id} onClick={() => onSelect(hero)}>
+    <div className="hero-select-container">
+      <button className="back-btn" onClick={onBack}>← Back</button>
+      <h1 className="hero-select-title">Select a {role}</h1>
+      <div className="hero-grid">
+        {heroes.map((hero) => (
+          <div
+            className="hero-card"
+            key={hero.name}
+            onClick={() => onSelect(hero)}
+          >
             <img src={hero.icon_url} alt={hero.name} />
             <p>{hero.name}</p>
           </div>
@@ -26,6 +37,6 @@ function HeroSelector({ role, onSelect }) {
       </div>
     </div>
   );
-}
+};
 
 export default HeroSelector;

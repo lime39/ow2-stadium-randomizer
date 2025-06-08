@@ -1,31 +1,58 @@
-.hero-selector {
+.hero-select-container {
+  padding: 2rem;
   text-align: center;
-  margin-top: 40px;
+  position: relative;
 }
 
-.heroes {
+.hero-select-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+.hero-grid {
   display: flex;
   flex-wrap: wrap;
+  gap: 1rem;
   justify-content: center;
-  gap: 30px;
+  margin-top: 60px; /* so it doesn't overlap with back button */
 }
 
-.heroes div {
+.hero-card {
+  width: 120px;
   cursor: pointer;
-  transition: transform 0.2s ease;
-  width: 100px;
+  text-align: center;
 }
 
-.heroes div:hover {
+.hero-card:hover {
   transform: scale(1.05);
 }
 
-.heroes img {
-  width: 80px;
-  height: 80px;
+.hero-card img {
+  width: 100%;
   border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hero-card p {
+  margin-top: 0.5rem;
+  font-weight: bold;
+  color: #ccc;
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #aaa; /* or a color that fits your theme */
+  z-index: 10;
+  padding: 0;
+}
+
+.back-btn:hover {
+  color: #fff;
 }
 

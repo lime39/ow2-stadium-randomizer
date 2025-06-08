@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from models import Base, Hero
 from database import engine, SessionLocal
@@ -18,7 +18,10 @@ app.add_middleware(
 Base.metadata.create_all(bind=engine)
 
 @app.get("/heroes")
-def get_heroes():
+def get_heroes(role: str = Query(None)):
     db: Session = SessionLocal()
-    heroes = db.query(Hero).all()
+    if role:
+        heroes = db.query(Hero).filter(Hero.role == role).all()
+    else:
+        heroes = db.query(Hero).all()
     return heroes
