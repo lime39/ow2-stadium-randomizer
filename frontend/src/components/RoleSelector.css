@@ -1,0 +1,24 @@
+.role-selector {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.roles {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.roles div {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.roles div:hover {
+  transform: scale(1.1);
+}
+
+.roles img {
+  width: 80px;
+  height: 80px;
+}

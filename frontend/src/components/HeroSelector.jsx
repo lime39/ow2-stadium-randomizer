@@ -1,5 +1,5 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import './HeroSelector.css';
 
 function HeroSelector({ role, onSelect }) {
   const [heroes, setHeroes] = useState([]);
@@ -7,23 +7,23 @@ function HeroSelector({ role, onSelect }) {
   useEffect(() => {
     fetch('http://localhost:8000/heroes')
       .then(res => res.json())
-      .then(data => setHeroes(data))
-      .catch(err => console.error('Error fetching heroes:', err));
-  }, []);
-
-  const filtered = heroes.filter(hero => hero.role === role);
+      .then(data => {
+        const filtered = data.filter(hero => hero.role.toLowerCase() === role.toLowerCase());
+        setHeroes(filtered);
+      });
+  }, [role]);
 
   return (
-    <div>
-      <h2>Select a {role} Hero</h2>
-      <ul>
-        {filtered.map(hero => (
-          <li key={hero.id} onClick={() => onSelect(hero)}>
-            {hero.icon && <img src={hero.icon} alt={hero.name} width="50" />}
-            {hero.name}
-          </li>
+    <div className="hero-selector">
+      <h2>Select a {role}</h2>
+      <div className="heroes">
+        {heroes.map(hero => (
+          <div key={hero.id} onClick={() => onSelect(hero)}>
+            <img src={hero.icon_url} alt={hero.name} />
+            <p>{hero.name}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

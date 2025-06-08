@@ -1,0 +1,31 @@
+.hero-selector {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.heroes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.heroes div {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  width: 100px;
+}
+
+.heroes div:hover {
+  transform: scale(1.05);
+}
+
+.heroes img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
