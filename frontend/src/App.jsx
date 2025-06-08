@@ -1,33 +1,22 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import RoleSelector from './components/RoleSelector';
+import HeroSelector from './components/HeroSelector';
+import Randomizer from './components/Randomizer';
 
 function App() {
-  const [heroes, setHeroes] = useState([]);
+  const [selectedRole, setSelectedRole] = useState(null);
+  const [selectedHero, setSelectedHero] = useState(null);
 
-  useEffect(() => {
-    console.log("Fetching heroes...");
-    fetch('http://localhost:8000/heroes')
-      .then(res => res.json())
-      .then(data => {
-        console.log("Heroes fetched:", data);
-        setHeroes(data);
-      })
-      .catch(err => console.error("Error fetching heroes:", err));
-  }, []);
+  if (!selectedRole) {
+    return <RoleSelector onSelect={setSelectedRole} />;
+  }
 
-  return (
-    <div>
-      <h1>Choose Your Hero</h1>
-      <ul>
-        {heroes.map(hero => (
-          <li key={hero.id}>
-            {hero.icon && <img src={hero.icon} alt={hero.name} width="50" />}
-            {hero.name} ({hero.role})
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  if (!selectedHero) {
+    return <HeroSelector role={selectedRole} onSelect={setSelectedHero} />;
+  }
+
+  return <Randomizer hero={selectedHero} />;
 }
 
 export default App;
