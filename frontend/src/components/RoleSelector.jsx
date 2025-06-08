@@ -1,6 +1,6 @@
 import React from 'react';
 function RoleSelector({ onSelect }) {
-  const roles = ['Tank', 'Damage', 'Support'];
+  const roles = ['Tank', 'DPS', 'Support'];
 
   return (
     <div>
