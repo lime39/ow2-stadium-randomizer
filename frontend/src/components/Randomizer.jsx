@@ -199,7 +199,7 @@ function Randomizer({ hero, onBack }) {
         <div className="game-over">
           <h3>Game Over!</h3>
           <p>{playerWins > opponentWins ? "You win!" : "You lose!"}</p>
-          <button onClick={onBack}>Back to Hero Select</button>
+          <button onClick={onBack} className="postgame-btn">Back to Hero Select</button>
         </div>
       )}
 

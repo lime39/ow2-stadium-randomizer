@@ -1,4 +1,16 @@
 /* Randomizer.css */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 152, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 152, 0, 0);
+  }
+}
+
 
 .randomizer-container {
   background-color: #0b0c10;
@@ -91,6 +103,28 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
+
+.postgame-btn {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #ff9800, #f57c00);
+  color: #0b0c10;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  animation: pulse 2s infinite;
+  box-shadow: 0 4px 8px rgba(255, 152, 0, 0.4);
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.postgame-btn:hover {
+  background: linear-gradient(45deg, #ff9800, #f57c00);
+  animation: pulse 2.0s infinite;
+  transform: scale(1.05);
+}
+
 
 /* Item list styles */
 ul {
