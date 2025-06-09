@@ -147,7 +147,7 @@ function Randomizer({ hero, onBack }) {
               : "Tough game, player. Better luck next time!"}
           </p>
 
-          <button onClick={onBack} className="postgame-btn">Back to Hero Select</button>
+          <button onClick={onBack} className="postgame-btn">Back to Role Select</button>
         </div>
       ) : (
         <>
