@@ -132,6 +132,11 @@ function Randomizer({ hero, onBack }) {
 
   return (
     <div className="randomizer-container">
+      <img
+        src={hero.icon_url}
+        alt={`${hero.name} icon`}
+        className="hero-icon"
+      />
       <h2>Welcome, {hero.name}!</h2>
       <p>Round {round} begins now. Let the randomizer begin!</p>
 
