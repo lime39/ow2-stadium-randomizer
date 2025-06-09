@@ -276,7 +276,7 @@ li.hero-specific {
 }
 
 /* Hover effect to pop items */
-li:hover {
+.randomizer-container li:hover {
   transform: scale(1.04);
   box-shadow: 0 0 20px 5px rgba(255 152 0 / 0.8);
   z-index: 2;

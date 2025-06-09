@@ -39,6 +39,30 @@
   /* Remove vertical centering, it will naturally flow below title */
 }
 
+.welcome-list {
+  padding-left: 1.2rem;
+  margin: 0;
+}
+
+.welcome-list li {
+  color: #eee;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  list-style-type: decimal;
+  background: none !important;
+  cursor: default !important;
+  transition: none !important;
+}
+
+/* Completely disable hover behavior */
+.welcome-list li:hover {
+  background: none !important;
+  color: #eee !important;
+}
+
+
+
 .how-to-use {
   text-align: left;
   background: rgba(255, 255, 255, 0.05);
@@ -90,3 +114,5 @@
   width: 100%;
   text-align: center;
 }
+
+
