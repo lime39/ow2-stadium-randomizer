@@ -13,10 +13,10 @@ function Randomizer({ hero, onBack }) {
   const [powers, setPowers] = useState([]);
   const [gameOver, setGameOver] = useState(false);
 
-  // Calculate total cash using stored inventory cost from previous round
-  const totalCash = playerCash
+  // Calculate total cash including current inventory cost
+  const totalCash = playerCash;
 
-  // Fetch items and powers on round change
+  // Fetch items and powers on round or hero change
   useEffect(() => {
     if (gameOver) return;
 
@@ -29,7 +29,7 @@ function Randomizer({ hero, onBack }) {
           (item) => item.hero_id === null || item.hero_id === hero.hero_id
         );
 
-        // Random shuffle
+        // Shuffle items randomly
         const shuffleArray = (array) => {
           const arr = [...array];
           for (let i = arr.length - 1; i > 0; i--) {
@@ -41,12 +41,13 @@ function Randomizer({ hero, onBack }) {
 
         const shuffledItems = shuffleArray(eligibleItems);
 
-        // Random inventory generation
+        // Generate random inventory with random count (including possibly zero items)
         let remainingCash = playerCash;
         const newInventory = [];
 
         for (const item of shuffledItems) {
           if (newInventory.length >= 6) break;
+          // 50% chance to try picking item if affordable
           if (Math.random() < 0.5 && item.cost <= remainingCash) {
             newInventory.push(item);
             remainingCash -= item.cost;
@@ -77,7 +78,6 @@ function Randomizer({ hero, onBack }) {
             console.error("Failed to fetch powers:", error);
           }
         }
-
       } catch (error) {
         console.error("Failed to fetch items or powers:", error);
       }
@@ -86,14 +86,15 @@ function Randomizer({ hero, onBack }) {
     fetchItemsAndPowers();
   }, [round, hero, gameOver]);
 
-  const advanceRound = (playerScore, opponentScore) => {
-    if (pendingCash !== null) {
-      const updatedCash =
-        round === 1 ? pendingCash : pendingCash + lastInventoryCost;
-      setPlayerCash(updatedCash);
+  // Update playerCash whenever pendingCash or lastInventoryCost changes
+  useEffect(() => {
+    if (pendingCash !== null && lastInventoryCost !== null) {
+      setPlayerCash(pendingCash + lastInventoryCost);
       setPendingCash(null);
     }
+  }, [pendingCash, lastInventoryCost]);
 
+  const advanceRound = (playerScore, opponentScore) => {
     if (playerScore === 4 || opponentScore === 4 || round === 7) {
       setGameOver(true);
     } else {
@@ -118,7 +119,7 @@ function Randomizer({ hero, onBack }) {
   };
 
   const updateCash = () => {
-    const cash = parseInt(inputCash);
+    const cash = parseInt(inputCash, 10);
     if (!isNaN(cash)) {
       setPendingCash(cash);
       setInputCash('');
