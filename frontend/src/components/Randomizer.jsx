@@ -14,8 +14,8 @@ function Randomizer({ hero, onBack }) {
 
   // Total cash is playerCash + sum of item costs (items are "owned", so we add their cost for display)
   const totalCash = round === 1
-    ? playerCash
-    : playerCash + inventory.reduce((sum, item) => sum + item.cost, 0);
+  ? 3500
+  : playerCash + inventory.reduce((sum, item) => sum + item.cost, 0);
 
 
   // Fetch and refresh inventory every round
@@ -63,18 +63,29 @@ function Randomizer({ hero, onBack }) {
         setInventory(newInventory);
 
         // Powers only on odd rounds (1,3,5,7), max 4 powers
-        if (round % 2 === 1) {
-          // Fetch powers for the hero
-          const powersResponse = await fetch(`http://localhost:8000/powers?hero_id=${hero.hero_id}`);
-          const heroPowers = await powersResponse.json();
+        if (round % 2 === 1 && powers.length < 4) {
+          try {
+            const powersResponse = await fetch(`http://localhost:8000/powers?hero_id=${hero.hero_id}`);
+            const heroPowers = await powersResponse.json();
 
-          // Pick a random power from powers not already owned
-          const ownedPowerIds = powers.map(p => p.power_id);
-          const availablePowers = heroPowers.filter(p => !ownedPowerIds.includes(p.power_id));
+            // Filter out powers we already have
+            const ownedPowerIds = powers.map(p => p.power_id);
+            const availablePowers = heroPowers.filter(p => !ownedPowerIds.includes(p.power_id));
 
-          if (availablePowers.length > 0 && powers.length < 4) {
-            const randomPower = availablePowers[Math.floor(Math.random() * availablePowers.length)];
-            setPowers(prev => [...prev, randomPower]);
+            // If this is round 1 and we don't have any powers yet
+            if (round === 1 && powers.length === 0 && availablePowers.length > 0) {
+              const randomPower = availablePowers[Math.floor(Math.random() * availablePowers.length)];
+              setPowers([randomPower]);
+            }
+
+            // For rounds 3, 5, 7 (or any later odd round), only add one new power if possible
+            else if (round > 1 && availablePowers.length > 0) {
+              const randomPower = availablePowers[Math.floor(Math.random() * availablePowers.length)];
+              setPowers(prev => [...prev, randomPower]);
+            }
+
+          } catch (error) {
+            console.error("Failed to fetch powers:", error);
           }
         }
       } catch (error) {
@@ -84,7 +95,7 @@ function Randomizer({ hero, onBack }) {
 
     fetchItemsAndPowers();
 
-  }, [round, hero, playerCash, gameOver]);
+  }, [round, hero, gameOver]);
 
   // Advance round logic
   const advanceRound = (playerScore, opponentScore) => {
