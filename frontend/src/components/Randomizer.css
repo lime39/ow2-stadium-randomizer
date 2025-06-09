@@ -1,0 +1,93 @@
+/* Randomizer.css */
+
+.randomizer-container {
+  background-color: #0b0c10;
+  color: #f0f0f0;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.randomizer-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #ff9800;
+}
+
+.randomizer-container p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 1.5rem 0;
+  font-size: 1.3rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.controls button,
+.cash-input-section button,
+.mercy-btn {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #ff9800, #f57c00);
+  color: #0b0c10;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(255, 152, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.controls button:hover,
+.cash-input-section button:hover,
+.mercy-btn:hover {
+  background-color: #e65100;
+  box-shadow: 0 6px 12px rgba(230, 81, 0, 0.6);
+  transform: scale(1.05);
+}
+
+.cash-input-section {
+  margin: 2rem 0;
+  font-size: 1.1rem;
+}
+
+.cash-input-section input {
+  margin-left: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100px;
+}
+
+.cash-display {
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  color: #ffb74d;
+}
+
+.game-over {
+  margin-top: 3rem;
+}
+
+.game-over h3 {
+  font-size: 2rem;
+  color: #f44336;
+}
+
+.game-over p {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
