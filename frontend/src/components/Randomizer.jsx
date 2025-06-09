@@ -173,7 +173,13 @@ function Randomizer({ hero, onBack }) {
       <h3>Inventory (max 6 items):</h3>
       <ul>
         {inventory.map((item, idx) => (
-          <li key={idx}>
+          <li
+            key={idx}
+            className={`
+              item-${item.tier.toLowerCase()}
+              ${item.hero_id ? 'hero-specific' : ''}
+            `}
+          >
             <strong>{item.name}</strong> — {item.category} ({item.tier}) - ${item.cost}
           </li>
         ))}
@@ -183,7 +189,7 @@ function Randomizer({ hero, onBack }) {
       <h3>Powers (max 4):</h3>
       <ul>
         {powers.map((power, idx) => (
-          <li key={idx}>
+          <li key={idx} className="power-item">
             <strong>{power.name}</strong>
           </li>
         ))}

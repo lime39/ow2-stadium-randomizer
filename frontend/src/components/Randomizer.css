@@ -91,3 +91,94 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
+
+/* Item list styles */
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  max-width: 500px;
+  margin: 0 auto 2rem auto;
+}
+
+li {
+  margin: 8px 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: default;
+  color: #f0f0f0; /* fallback */
+}
+
+/* Tier-based colors */
+li.item-common {
+  color: #4caf50; /* green */
+}
+
+li.item-rare {
+  color: #2196f3; /* blue */
+}
+
+li.item-epic {
+  color: #9c27b0; /* purple */
+}
+
+/* Hero-specific highlight: glowing rainbow border */
+li.hero-specific {
+  border: 2px solid transparent;
+  position: relative;
+  animation: rainbowGlow 3s linear infinite;
+  box-shadow: 0 0 12px 3px rgba(255 255 255 / 0.3);
+}
+
+@keyframes rainbowGlow {
+  0% {
+    border-color: #ff3c00;
+    box-shadow: 0 0 12px 3px #ff3c00;
+  }
+  16% {
+    border-color: #ffbf00;
+    box-shadow: 0 0 12px 3px #ffbf00;
+  }
+  33% {
+    border-color: #3cff00;
+    box-shadow: 0 0 12px 3px #3cff00;
+  }
+  50% {
+    border-color: #00ffda;
+    box-shadow: 0 0 12px 3px #00ffda;
+  }
+  66% {
+    border-color: #004bff;
+    box-shadow: 0 0 12px 3px #004bff;
+  }
+  83% {
+    border-color: #b800ff;
+    box-shadow: 0 0 12px 3px #b800ff;
+  }
+  100% {
+    border-color: #ff3c00;
+    box-shadow: 0 0 12px 3px #ff3c00;
+  }
+}
+
+/* Hover effect to pop items */
+li:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 20px 5px rgba(255 152 0 / 0.8);
+  z-index: 2;
+}
+
+/* Powers list style */
+li.power-item {
+  color: #ffb74d; /* warm gold-ish */
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255 183 77 / 0.8);
+  margin-bottom: 6px;
+  transition: transform 0.2s ease;
+}
+
+li.power-item:hover {
+  transform: scale(1.1);
+  text-shadow: 0 0 15px rgba(255 183 77 / 1);
+}
