@@ -4,3 +4,4 @@ sqlalchemy
 oracledb
 python-dotenv
 pydantic
+gunicorn
