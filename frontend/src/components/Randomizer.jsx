@@ -7,60 +7,54 @@ function Randomizer({ hero, onBack }) {
   const [opponentWins, setOpponentWins] = useState(0);
   const [playerCash, setPlayerCash] = useState(3500);
   const [inputCash, setInputCash] = useState('');
-  const [gameOver, setGameOver] = useState(false);
-
+  const [pendingCash, setPendingCash] = useState(null);
+  const [lastInventoryCost, setLastInventoryCost] = useState(0);
   const [inventory, setInventory] = useState([]);
   const [powers, setPowers] = useState([]);
+  const [gameOver, setGameOver] = useState(false);
 
-  // Total cash is playerCash + sum of item costs (items are "owned", so we add their cost for display)
-  const totalCash = round === 1
-  ? 3500
-  : playerCash + inventory.reduce((sum, item) => sum + item.cost, 0);
+  // Calculate total cash using stored inventory cost from previous round
+  const totalCash = playerCash
 
-
-  // Fetch and refresh inventory every round
+  // Fetch items and powers on round change
   useEffect(() => {
     if (gameOver) return;
 
-    // Fetch items and powers from backend
-    async function fetchItemsAndPowers() {
+    const fetchItemsAndPowers = async () => {
       try {
-        // Fetch items: generic (hero_id = null) + hero-specific
         const itemsResponse = await fetch(`http://localhost:8000/items?hero_id=${hero.hero_id}`);
         const allItems = await itemsResponse.json();
 
-        // Filter items eligible for inventory (generic or hero-specific)
         const eligibleItems = allItems.filter(
           (item) => item.hero_id === null || item.hero_id === hero.hero_id
         );
 
-        // Shuffle function
-        function shuffleArray(array) {
+        // Random shuffle
+        const shuffleArray = (array) => {
           const arr = [...array];
           for (let i = arr.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [arr[i], arr[j]] = [arr[j], arr[i]];
           }
           return arr;
-        }
+        };
 
         const shuffledItems = shuffleArray(eligibleItems);
 
-        // Pick items to fill inventory (max 6), respecting playerCash budget
+        // Random inventory generation
         let remainingCash = playerCash;
         const newInventory = [];
 
         for (const item of shuffledItems) {
           if (newInventory.length >= 6) break;
-          // We assume player can "sell" all old items first, so only check against playerCash now
-          // Only add item if playerCash can afford it (cost <= remainingCash)
-          if (item.cost <= remainingCash) {
+          if (Math.random() < 0.5 && item.cost <= remainingCash) {
             newInventory.push(item);
             remainingCash -= item.cost;
           }
         }
 
         setInventory(newInventory);
+        setLastInventoryCost(newInventory.reduce((sum, item) => sum + item.cost, 0));
 
         // Powers only on odd rounds (1,3,5,7), max 4 powers
         if (round % 2 === 1 && powers.length < 4) {
@@ -68,18 +62,13 @@ function Randomizer({ hero, onBack }) {
             const powersResponse = await fetch(`http://localhost:8000/powers?hero_id=${hero.hero_id}`);
             const heroPowers = await powersResponse.json();
 
-            // Filter out powers we already have
             const ownedPowerIds = powers.map(p => p.power_id);
             const availablePowers = heroPowers.filter(p => !ownedPowerIds.includes(p.power_id));
 
-            // If this is round 1 and we don't have any powers yet
             if (round === 1 && powers.length === 0 && availablePowers.length > 0) {
               const randomPower = availablePowers[Math.floor(Math.random() * availablePowers.length)];
               setPowers([randomPower]);
-            }
-
-            // For rounds 3, 5, 7 (or any later odd round), only add one new power if possible
-            else if (round > 1 && availablePowers.length > 0) {
+            } else if (round > 1 && availablePowers.length > 0) {
               const randomPower = availablePowers[Math.floor(Math.random() * availablePowers.length)];
               setPowers(prev => [...prev, randomPower]);
             }
@@ -88,17 +77,23 @@ function Randomizer({ hero, onBack }) {
             console.error("Failed to fetch powers:", error);
           }
         }
+
       } catch (error) {
-        console.error('Failed to fetch items or powers:', error);
+        console.error("Failed to fetch items or powers:", error);
       }
-    }
+    };
 
     fetchItemsAndPowers();
-
   }, [round, hero, gameOver]);
 
-  // Advance round logic
   const advanceRound = (playerScore, opponentScore) => {
+    if (pendingCash !== null) {
+      const updatedCash =
+        round === 1 ? pendingCash : pendingCash + lastInventoryCost;
+      setPlayerCash(updatedCash);
+      setPendingCash(null);
+    }
+
     if (playerScore === 4 || opponentScore === 4 || round === 7) {
       setGameOver(true);
     } else {
@@ -125,7 +120,7 @@ function Randomizer({ hero, onBack }) {
   const updateCash = () => {
     const cash = parseInt(inputCash);
     if (!isNaN(cash)) {
-      setPlayerCash(cash);
+      setPendingCash(cash);
       setInputCash('');
     }
   };
@@ -178,10 +173,11 @@ function Randomizer({ hero, onBack }) {
       <ul>
         {inventory.map((item, idx) => (
           <li key={idx}>
-            <strong>{item.name}</strong> — {item.category} ({item.tier})
+            <strong>{item.name}</strong> — {item.category} ({item.tier}) - ${item.cost}
           </li>
         ))}
       </ul>
+      <p>Current Inventory Value: ${lastInventoryCost}</p>
 
       <h3>Powers (max 4):</h3>
       <ul>
