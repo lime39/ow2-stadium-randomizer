@@ -12,6 +12,8 @@ function Randomizer({ hero, onBack }) {
   const [inventory, setInventory] = useState([]);
   const [powers, setPowers] = useState([]);
   const [gameOver, setGameOver] = useState(false);
+  const [noItemsMessage, setNoItemsMessage] = React.useState("");
+
 
   // Calculate total cash including current inventory cost
   const totalCash = playerCash;
@@ -41,14 +43,17 @@ function Randomizer({ hero, onBack }) {
 
         const shuffledItems = shuffleArray(eligibleItems);
 
+        // Pick a random number of items (0 to 6)
+        const maxItems = 6;
+        const itemsToPickCount = Math.floor(Math.random() * (maxItems + 1));
+
         // Generate random inventory with random count (including possibly zero items)
         let remainingCash = playerCash;
         const newInventory = [];
 
         for (const item of shuffledItems) {
-          if (newInventory.length >= 6) break;
-          // 50% chance to try picking item if affordable
-          if (Math.random() < 0.5 && item.cost <= remainingCash) {
+          if (newInventory.length >= itemsToPickCount) break;
+          if (item.cost <= remainingCash) {
             newInventory.push(item);
             remainingCash -= item.cost;
           }
@@ -56,6 +61,12 @@ function Randomizer({ hero, onBack }) {
 
         setInventory(newInventory);
         setLastInventoryCost(newInventory.reduce((sum, item) => sum + item.cost, 0));
+
+        if (newInventory.length === 0) {
+          setNoItemsMessage("No items were selected this round.");
+        } else {
+          setNoItemsMessage("");
+        }
 
         // Powers only on odd rounds (1,3,5,7), max 4 powers
         if (round % 2 === 1 && powers.length < 4) {
@@ -165,8 +176,8 @@ function Randomizer({ hero, onBack }) {
           </div>
 
           <div className="controls">
-            <button onClick={handleWin}>+ Win</button>
-            <button onClick={handleLoss}>+ Loss</button>
+            <button onClick={handleWin}>Win</button>
+            <button onClick={handleLoss}>Loss</button>
           </div>
 
           {round === 4 && (
@@ -207,7 +218,10 @@ function Randomizer({ hero, onBack }) {
                   </li>
                 ))}
               </ul>
+              {noItemsMessage && <p className="no-items-message">{noItemsMessage}</p>}
             </div>
+
+            
 
             <div className="powers-section">
               <h3>Powers:</h3>
