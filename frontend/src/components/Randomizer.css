@@ -92,6 +92,14 @@
   width: 100px;
 }
 
+.cash-input-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+
 .cash-display {
   font-size: 1.3rem;
   margin-top: 1rem;
@@ -187,8 +195,10 @@
   min-width: 250px;
 }
 
+.inventory-section h3,
 .powers-section h3 {
   font-size: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 
@@ -275,7 +285,8 @@ li:hover {
 /* Powers list style */
 li.power-item {
   color: #ffb74d; /* warm gold-ish */
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 1.2rem;
   text-shadow: 0 0 8px rgba(255 183 77 / 0.8);
   margin-bottom: 6px;
   transition: transform 0.2s ease;

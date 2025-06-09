@@ -157,7 +157,7 @@ function Randomizer({ hero, onBack }) {
             className="hero-icon"
           />
           <h2>Welcome, {hero.name}!</h2>
-          <p>Round {round} begins now. Let the randomizer begin!</p>
+          <p>Round {round} starts now. Let the randomizer begin!</p>
 
           <div className="scoreboard">
             <p><strong>You:</strong> {playerWins}</p>
@@ -176,17 +176,18 @@ function Randomizer({ hero, onBack }) {
           )}
 
           <div className="cash-input-section">
-            <label>
-              Enter Cash after Round {round}:
+            <label>Enter Cash after Round {round}:</label>
+            <div className="cash-input-wrapper">
               <input
                 type="number"
                 value={inputCash}
                 onChange={handleCashChange}
                 placeholder="e.g. 4200"
               />
-            </label>
-            <button onClick={updateCash}>Update Cash</button>
+              <button onClick={updateCash}>Update Cash</button>
+            </div>
           </div>
+
 
           <p className="cash-display">Total Cash (cash + item costs): ${totalCash}</p>
 
@@ -206,7 +207,6 @@ function Randomizer({ hero, onBack }) {
                   </li>
                 ))}
               </ul>
-              <p>Current Inventory Value: ${lastInventoryCost}</p>
             </div>
 
             <div className="powers-section">
