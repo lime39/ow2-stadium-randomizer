@@ -169,31 +169,36 @@ function Randomizer({ hero, onBack }) {
       )}
 
       <p className="cash-display">Total Cash (cash + item costs): ${totalCash}</p>
+        <div className="item-power-section">
+          <div className="inventory-section">
+            <h3>Inventory:</h3>
+            <ul>
+              {inventory.map((item, idx) => (
+                <li
+                  key={idx}
+                  className={`
+                    item-${item.tier.toLowerCase()}
+                    ${item.hero_id ? 'hero-specific' : ''}
+                  `}
+                >
+                  <strong>{item.name}</strong> — {item.category} ({item.tier}) - ${item.cost}
+                </li>
+              ))}
+            </ul>
+            <p>Current Inventory Value: ${lastInventoryCost}</p>
+          </div>
 
-      <h3>Inventory (max 6 items):</h3>
-      <ul>
-        {inventory.map((item, idx) => (
-          <li
-            key={idx}
-            className={`
-              item-${item.tier.toLowerCase()}
-              ${item.hero_id ? 'hero-specific' : ''}
-            `}
-          >
-            <strong>{item.name}</strong> — {item.category} ({item.tier}) - ${item.cost}
-          </li>
-        ))}
-      </ul>
-      <p>Current Inventory Value: ${lastInventoryCost}</p>
-
-      <h3>Powers (max 4):</h3>
-      <ul>
-        {powers.map((power, idx) => (
-          <li key={idx} className="power-item">
-            <strong>{power.name}</strong>
-          </li>
-        ))}
-      </ul>
+          <div className="powers-section">
+            <h3>Powers:</h3>
+            <ul>
+              {powers.map((power, idx) => (
+                <li key={idx} className="power-item">
+                  <strong>{power.name}</strong>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
       {gameOver && (
         <div className="game-over">

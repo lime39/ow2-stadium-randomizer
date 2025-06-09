@@ -125,6 +125,27 @@
   transform: scale(1.05);
 }
 
+.item-power-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.inventory-section,
+.powers-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+.powers-section h3 {
+  font-size: 1.5rem;
+}
+
+
+
 
 /* Item list styles */
 ul {
@@ -138,6 +159,7 @@ li {
   margin: 8px 0;
   padding: 10px 14px;
   border-radius: 10px;
+  font-size: 1.10rem;
   font-weight: 600;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   cursor: default;
