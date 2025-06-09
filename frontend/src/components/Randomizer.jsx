@@ -1,16 +1,99 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Randomizer.css';
 
-function Randomizer({ hero }) {
+function Randomizer({ hero, onBack }) {
   const [round, setRound] = useState(1);
   const [playerWins, setPlayerWins] = useState(0);
   const [opponentWins, setOpponentWins] = useState(0);
   const [playerCash, setPlayerCash] = useState(3500);
   const [inputCash, setInputCash] = useState('');
   const [gameOver, setGameOver] = useState(false);
-  const [itemValue, setItemValue] = useState(0); // Placeholder for future item values
 
-  const totalCash = playerCash + itemValue;
+  const [inventory, setInventory] = useState([]);
+  const [powers, setPowers] = useState([]);
+
+  // Total cash is playerCash + sum of item costs (items are "owned", so we add their cost for display)
+  const totalCash = round === 1
+    ? playerCash
+    : playerCash + inventory.reduce((sum, item) => sum + item.cost, 0);
+
+
+  // Fetch and refresh inventory every round
+  useEffect(() => {
+    if (gameOver) return;
+
+    // Fetch items and powers from backend
+    async function fetchItemsAndPowers() {
+      try {
+        // Fetch items: generic (hero_id = null) + hero-specific
+        const itemsResponse = await fetch(`http://localhost:8000/items?hero_id=${hero.hero_id}`);
+        const allItems = await itemsResponse.json();
+
+        // Filter items eligible for inventory (generic or hero-specific)
+        const eligibleItems = allItems.filter(
+          (item) => item.hero_id === null || item.hero_id === hero.hero_id
+        );
+
+        // Shuffle function
+        function shuffleArray(array) {
+          const arr = [...array];
+          for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+          return arr;
+        }
+
+        const shuffledItems = shuffleArray(eligibleItems);
+
+        // Pick items to fill inventory (max 6), respecting playerCash budget
+        let remainingCash = playerCash;
+        const newInventory = [];
+
+        for (const item of shuffledItems) {
+          if (newInventory.length >= 6) break;
+          // We assume player can "sell" all old items first, so only check against playerCash now
+          // Only add item if playerCash can afford it (cost <= remainingCash)
+          if (item.cost <= remainingCash) {
+            newInventory.push(item);
+            remainingCash -= item.cost;
+          }
+        }
+
+        setInventory(newInventory);
+
+        // Powers only on odd rounds (1,3,5,7), max 4 powers
+        if (round % 2 === 1) {
+          // Fetch powers for the hero
+          const powersResponse = await fetch(`http://localhost:8000/powers?hero_id=${hero.hero_id}`);
+          const heroPowers = await powersResponse.json();
+
+          // Pick a random power from powers not already owned
+          const ownedPowerIds = powers.map(p => p.power_id);
+          const availablePowers = heroPowers.filter(p => !ownedPowerIds.includes(p.power_id));
+
+          if (availablePowers.length > 0 && powers.length < 4) {
+            const randomPower = availablePowers[Math.floor(Math.random() * availablePowers.length)];
+            setPowers(prev => [...prev, randomPower]);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch items or powers:', error);
+      }
+    }
+
+    fetchItemsAndPowers();
+
+  }, [round, hero, playerCash, gameOver]);
+
+  // Advance round logic
+  const advanceRound = (playerScore, opponentScore) => {
+    if (playerScore === 4 || opponentScore === 4 || round === 7) {
+      setGameOver(true);
+    } else {
+      setRound(prev => prev + 1);
+    }
+  };
 
   const handleWin = () => {
     const newWins = playerWins + 1;
@@ -22,14 +105,6 @@ function Randomizer({ hero }) {
     const newLosses = opponentWins + 1;
     setOpponentWins(newLosses);
     advanceRound(playerWins, newLosses);
-  };
-
-  const advanceRound = (playerScore, opponentScore) => {
-    if (playerScore === 4 || opponentScore === 4 || round === 7) {
-      setGameOver(true);
-    } else {
-      setRound(prev => prev + 1);
-    }
   };
 
   const handleCashChange = (e) => {
@@ -86,13 +161,38 @@ function Randomizer({ hero }) {
         </div>
       )}
 
-      <p className="cash-display">Total Cash: ${totalCash}</p>
+      <p className="cash-display">Total Cash (cash + item costs): ${totalCash}</p>
+
+      <h3>Inventory (max 6 items):</h3>
+      <ul>
+        {inventory.map((item, idx) => (
+          <li key={idx}>
+            <strong>{item.name}</strong> — {item.category} ({item.tier})
+          </li>
+        ))}
+      </ul>
+
+      <h3>Powers (max 4):</h3>
+      <ul>
+        {powers.map((power, idx) => (
+          <li key={idx}>
+            <strong>{power.name}</strong>
+          </li>
+        ))}
+      </ul>
 
       {gameOver && (
         <div className="game-over">
           <h3>Game Over!</h3>
           <p>{playerWins > opponentWins ? "You win!" : "You lose!"}</p>
+          <button onClick={onBack}>Back to Hero Select</button>
         </div>
+      )}
+
+      {!gameOver && (
+        <button onClick={onBack} className="back-btn">
+          Back to Hero Select
+        </button>
       )}
     </div>
   );
