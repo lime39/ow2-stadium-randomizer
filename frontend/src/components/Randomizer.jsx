@@ -132,91 +132,99 @@ function Randomizer({ hero, onBack }) {
 
   return (
     <div className="randomizer-container">
-      <img
-        src={hero.icon_url}
-        alt={`${hero.name} icon`}
-        className="hero-icon"
-      />
-      <h2>Welcome, {hero.name}!</h2>
-      <p>Round {round} begins now. Let the randomizer begin!</p>
+      {gameOver ? (
+        <div className="game-over-summary">
+          <h2 className="summary-outcome">{playerWins > opponentWins ? "You Win!" : "You Lose!"}</h2>
 
-      <div className="scoreboard">
-        <p><strong>You:</strong> {playerWins}</p>
-        <p><strong>Opponent:</strong> {opponentWins}</p>
-      </div>
-
-      {!gameOver && (
-        <div className="controls">
-          <button onClick={handleWin}>+ Win</button>
-          <button onClick={handleLoss}>+ Loss</button>
-        </div>
-      )}
-
-      {!gameOver && round === 4 && (
-        <button className="mercy-btn" onClick={handleMercyRule}>
-          End Game with Mercy Rule
-        </button>
-      )}
-
-      {!gameOver && (
-        <div className="cash-input-section">
-          <label>
-            Enter Cash after Round {round}:
-            <input
-              type="number"
-              value={inputCash}
-              onChange={handleCashChange}
-              placeholder="e.g. 4200"
-            />
-          </label>
-          <button onClick={updateCash}>Update Cash</button>
-        </div>
-      )}
-
-      <p className="cash-display">Total Cash (cash + item costs): ${totalCash}</p>
-        <div className="item-power-section">
-          <div className="inventory-section">
-            <h3>Inventory:</h3>
-            <ul>
-              {inventory.map((item, idx) => (
-                <li
-                  key={idx}
-                  className={`
-                    item-${item.tier.toLowerCase()}
-                    ${item.hero_id ? 'hero-specific' : ''}
-                  `}
-                >
-                  <strong>{item.name}</strong> — {item.category} ({item.tier}) - ${item.cost}
-                </li>
-              ))}
-            </ul>
-            <p>Current Inventory Value: ${lastInventoryCost}</p>
+          <div className="summary-details">
+            <p><strong>Final Score:</strong> {playerWins} – {opponentWins}</p>
+            <p><strong>Total Cash:</strong> ${playerCash}</p>
           </div>
 
-          <div className="powers-section">
-            <h3>Powers:</h3>
-            <ul>
-              {powers.map((power, idx) => (
-                <li key={idx} className="power-item">
-                  <strong>{power.name}</strong>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+          <p className="fun-message">
+            {playerWins > opponentWins
+              ? "Amazing work, player. Ready for another one?"
+              : "Tough game, player. Better luck next time!"}
+          </p>
 
-      {gameOver && (
-        <div className="game-over">
-          <h3>Game Over!</h3>
-          <p>{playerWins > opponentWins ? "You win!" : "You lose!"}</p>
           <button onClick={onBack} className="postgame-btn">Back to Hero Select</button>
         </div>
-      )}
+      ) : (
+        <>
+          <img
+            src={hero.icon_url}
+            alt={`${hero.name} icon`}
+            className="hero-icon"
+          />
+          <h2>Welcome, {hero.name}!</h2>
+          <p>Round {round} begins now. Let the randomizer begin!</p>
 
-      {!gameOver && (
-        <button onClick={onBack} className="back-btn">
-          Back to Hero Select
-        </button>
+          <div className="scoreboard">
+            <p><strong>You:</strong> {playerWins}</p>
+            <p><strong>Opponent:</strong> {opponentWins}</p>
+          </div>
+
+          <div className="controls">
+            <button onClick={handleWin}>+ Win</button>
+            <button onClick={handleLoss}>+ Loss</button>
+          </div>
+
+          {round === 4 && (
+            <button className="mercy-btn" onClick={handleMercyRule}>
+              End Game with Mercy Rule
+            </button>
+          )}
+
+          <div className="cash-input-section">
+            <label>
+              Enter Cash after Round {round}:
+              <input
+                type="number"
+                value={inputCash}
+                onChange={handleCashChange}
+                placeholder="e.g. 4200"
+              />
+            </label>
+            <button onClick={updateCash}>Update Cash</button>
+          </div>
+
+          <p className="cash-display">Total Cash (cash + item costs): ${totalCash}</p>
+
+          <div className="item-power-section">
+            <div className="inventory-section">
+              <h3>Inventory:</h3>
+              <ul>
+                {inventory.map((item, idx) => (
+                  <li
+                    key={idx}
+                    className={`
+                      item-${item.tier.toLowerCase()}
+                      ${item.hero_id ? 'hero-specific' : ''}
+                    `}
+                  >
+                    <strong>{item.name}</strong> — {item.category} ({item.tier}) - ${item.cost}
+                  </li>
+                ))}
+              </ul>
+              <p>Current Inventory Value: ${lastInventoryCost}</p>
+            </div>
+
+            <div className="powers-section">
+              <h3>Powers:</h3>
+              <ul>
+                {powers.map((power, idx) => (
+                  <li key={idx} className="power-item">
+                    <strong>{power.name}</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <button onClick={onBack} className="back-btn">
+            Back to Hero Select
+          </button>
+        </>
       )}
     </div>
   );
