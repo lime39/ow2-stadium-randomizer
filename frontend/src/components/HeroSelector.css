@@ -5,38 +5,48 @@
 }
 
 .hero-select-title {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 2rem;
-  color: #ffffff;
+  color: #ff9800; /* Overwatch orange for title */
 }
 
 .hero-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 2rem; /* Increased spacing between icons */
   justify-content: center;
-  margin-top: 60px; /* so it doesn't overlap with back button */
+  margin-top: 60px;
 }
 
 .hero-card {
-  width: 120px;
+  width: 130px; /* slightly wider to fit the name better */
   cursor: pointer;
   text-align: center;
+  padding: 0.5rem;
+  border-radius: 10px;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
 .hero-card:hover {
   transform: scale(1.05);
+  background-color: rgba(255, 152, 0, 0.1); /* soft orange hover */
 }
 
 .hero-card img {
   width: 100%;
   border-radius: 50%;
+  border: 2px solid #ff9800; /* Orange border */
 }
 
 .hero-card p {
   margin-top: 0.5rem;
-  font-weight: bold;
-  color: #ccc;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f0f0f0;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .back-btn {
@@ -47,7 +57,7 @@
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  color: #aaa; /* or a color that fits your theme */
+  color: #aaa;
   z-index: 10;
   padding: 0;
 }
@@ -55,4 +65,3 @@
 .back-btn:hover {
   color: #fff;
 }
-

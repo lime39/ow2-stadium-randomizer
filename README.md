@@ -44,7 +44,8 @@ ORACLE_SERVICE=XEPDB1
 4. Run the backend:
 
 ```bash
-uvicorn backend.main:app --reload
+cd backend
+uvicorn main:app --reload
 ```
 ### Frontend Setup
 
