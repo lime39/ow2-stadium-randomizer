@@ -186,18 +186,20 @@ function Randomizer({ hero, onBack }) {
             </button>
           ) : null}
 
-          <div className="cash-input-section">
-            <label>Enter Cash after Round {round}:</label>
-            <div className="cash-input-wrapper">
-              <input
-                type="number"
-                value={inputCash}
-                onChange={handleCashChange}
-                placeholder="e.g. 4200"
-              />
-              <button onClick={updateCash}>Update Cash</button>
+          {round !== 7 && (
+            <div className="cash-input-section">
+              <label>Enter Cash after Round {round}:</label>
+              <div className="cash-input-wrapper">
+                <input
+                  type="number"
+                  value={inputCash}
+                  onChange={handleCashChange}
+                  placeholder="e.g. 4200"
+                />
+                <button onClick={updateCash}>Update Cash</button>
+              </div>
             </div>
-          </div>
+          )}
 
 
           <p className="cash-display">Total Cash (cash + item costs): ${totalCash}</p>
