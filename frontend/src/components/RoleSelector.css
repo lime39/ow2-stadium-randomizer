@@ -45,14 +45,14 @@
   width: 110px;
   height: 110px;
   cursor: pointer;
-  border-radius: 50%;
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: 2px solid transparent;
+  transition: transform 0.2s ease-in-out, filter 0.3s ease-in-out;
 }
 
 .role-icons img:hover {
-  transform: scale(1.12);
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 4px #EBEBFF);
 }
+
 
 
 .surprise-btn {
