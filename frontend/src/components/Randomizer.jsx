@@ -180,11 +180,11 @@ function Randomizer({ hero, onBack }) {
             <button onClick={handleLoss}>Loss</button>
           </div>
 
-          {round === 4 && (
+          {round === 4 && ((playerWins === 3 && opponentWins === 0) || (playerWins === 0 && opponentWins === 3)) ? (
             <button className="mercy-btn" onClick={handleMercyRule}>
               End Game with Mercy Rule
             </button>
-          )}
+          ) : null}
 
           <div className="cash-input-section">
             <label>Enter Cash after Round {round}:</label>
