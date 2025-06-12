@@ -203,6 +203,7 @@ function Randomizer({ hero, onBack }) {
 
 
           <p className="cash-display">Total Cash (cash + item costs): ${totalCash}</p>
+          <p className="inventory-cost">Inventory Cost: ${lastInventoryCost}</p>
 
           <div className="item-power-section">
             <div className="inventory-section">

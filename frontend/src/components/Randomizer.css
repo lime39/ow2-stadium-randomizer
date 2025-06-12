@@ -106,6 +106,12 @@
   color: #ffb74d;
 }
 
+.inventory-cost {
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  color: #ffffffa4;
+}
+
 .game-over {
   margin-top: 3rem;
 }
