@@ -188,17 +188,21 @@
 
 .item-power-section {
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  justify-content: center;
   align-items: flex-start;
-  gap: 2rem;
+  gap: 3rem;
   flex-wrap: wrap;
-  margin-top: 2rem;
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
 }
 
 .inventory-section,
 .powers-section {
-  flex: 1;
-  min-width: 250px;
+  flex: 1 1 300px;
+  min-width: 280px;
+  max-width: 450px;
 }
 
 .inventory-section h3,
@@ -228,6 +232,9 @@ li {
   cursor: default;
   color: #f0f0f0; /* fallback */
 }
+
+
+
 
 /* Tier-based colors */
 li.item-common {
@@ -288,17 +295,32 @@ li.hero-specific {
   z-index: 2;
 }
 
-/* Powers list style */
+
+
+
+.powers-section ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center; /* centers power items */
+}
+
 li.power-item {
-  color: #ffb74d; /* warm gold-ish */
+  max-width: 240px;
+  width: fit-content;
+  text-align: center;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  color: #ffb74d;
   font-weight: 600;
   font-size: 1.2rem;
-  text-shadow: 0 0 8px rgba(255 183 77 / 0.8);
-  margin-bottom: 6px;
-  transition: transform 0.2s ease;
+  text-shadow: 0 0 4px rgba(255, 183, 77, 0.4);
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
 }
 
 li.power-item:hover {
-  transform: scale(1.1);
-  text-shadow: 0 0 15px rgba(255 183 77 / 1);
+  transform: scale(1.04);
+  text-shadow: 0 0 6px rgba(255, 183, 77, 0.7);
 }
