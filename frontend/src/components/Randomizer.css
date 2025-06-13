@@ -78,6 +78,12 @@
   transform: scale(1.05);
 }
 
+.controls button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
 .cash-input-section {
   margin: 2rem 0;
   font-size: 1.1rem;

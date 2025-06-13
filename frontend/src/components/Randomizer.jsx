@@ -13,6 +13,8 @@ function Randomizer({ hero, onBack }) {
   const [powers, setPowers] = useState([]);
   const [gameOver, setGameOver] = useState(false);
   const [noItemsMessage, setNoItemsMessage] = React.useState("");
+  const [cashUpdated, setCashUpdated] = useState(false);
+
 
 
   // Calculate total cash including current inventory cost
@@ -21,6 +23,8 @@ function Randomizer({ hero, onBack }) {
   // Fetch items and powers on round or hero change
   useEffect(() => {
     if (gameOver) return;
+    setCashUpdated(false); // reset every round
+
 
     const fetchItemsAndPowers = async () => {
       try {
@@ -131,9 +135,10 @@ function Randomizer({ hero, onBack }) {
 
   const updateCash = () => {
     const cash = parseInt(inputCash, 10);
-    if (!isNaN(cash)) {
+    if (!isNaN(cash) && cash >= 0) {
       setPendingCash(cash);
       setInputCash('');
+      setCashUpdated(true);
     }
   };
 
@@ -176,8 +181,8 @@ function Randomizer({ hero, onBack }) {
           </div>
 
           <div className="controls">
-            <button onClick={handleWin}>Win</button>
-            <button onClick={handleLoss}>Loss</button>
+            <button onClick={handleWin} disabled={!cashUpdated && round !== 7}>Win</button>
+            <button onClick={handleLoss}disabled={!cashUpdated && round !== 7}>Loss</button>
           </div>
 
           {round === 4 && ((playerWins === 3 && opponentWins === 0) || (playerWins === 0 && opponentWins === 3)) ? (
@@ -195,6 +200,7 @@ function Randomizer({ hero, onBack }) {
                   value={inputCash}
                   onChange={handleCashChange}
                   placeholder="e.g. 4200"
+                  min="0"
                 />
                 <button onClick={updateCash}>Update Cash</button>
               </div>
