@@ -1,8 +1,15 @@
 .hero-select-container {
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical centering */
+  align-items: center;     /* horizontal centering */
+  height: 100vh;           /* full screen height */
   text-align: center;
+  padding: 2rem;
+  box-sizing: border-box;
   position: relative;
 }
+
 
 .hero-select-title {
   font-size: 2.5rem;
@@ -15,7 +22,7 @@
   flex-wrap: wrap;
   gap: 2rem; /* Increased spacing between icons */
   justify-content: center;
-  margin-top: 60px;
+  margin-top: 10px;
 }
 
 .hero-card {
