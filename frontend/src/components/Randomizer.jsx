@@ -223,7 +223,7 @@ function Randomizer({ hero, onBack }) {
                       ${item.hero_id ? 'hero-specific' : ''}
                     `}
                   >
-                    <strong>{item.name}</strong> — {item.category} ({item.tier}) - ${item.cost}
+                    <strong>{item.name}</strong> — {item.category} - ${item.cost}
                   </li>
                 ))}
               </ul>
